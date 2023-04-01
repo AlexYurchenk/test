@@ -11,7 +11,7 @@ export interface CurrencyExchangeRateAgainstHryvnia {
 
 export async function getCurrencyExchangeRateArray() {
     const { data } = await axios.get<CurrencyExchangeRateAgainstHryvnia[]>(
-        env.API_URL
+        'https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json'
     );
     return data;
 }
