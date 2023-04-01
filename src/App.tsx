@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import Container from '@mui/material/Container';
 
+import {
+    getCurrencyExchangeRateArray,
+    CurrencyExchangeRateAgainstHryvnia,
+} from './services/api.service';
+import CurrencyExchangeRateList from './components/currency-exchange-rate-list/currency-exchange-rate-list';
+import s from './styles/app.module.css';
+import Form, { Currency } from './components/form/form';
+import { Grid } from '@mui/material';
+export interface Data {
+    from: Currency;
+    to: Currency;
+}
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [currency, setCurrency] = useState<
+        CurrencyExchangeRateAgainstHryvnia[] | null
+    >(null);
+    useEffect(() => {
+        const getCurrency = async () => {
+            const data = await getCurrencyExchangeRateArray();
+            setCurrency(data);
+        };
+        getCurrency();
+    }, []);
+
+    if (!currency) {
+        return <></>;
+    }
+    return (
+        <>
+            <Container className={s.container} maxWidth='md'>
+                <Grid container spacing={2} columns={16}>
+                    <Grid item xs={8}>
+                        <CurrencyExchangeRateList data={currency} />
+                    </Grid>
+                    <Grid item xs={8}>
+                        <Form currency={currency} />
+                    </Grid>
+                </Grid>
+            </Container>
+        </>
+    );
 }
 
 export default App;

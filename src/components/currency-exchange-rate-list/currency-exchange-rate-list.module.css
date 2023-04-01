@@ -1,0 +1,8 @@
+.currency__exchange__rate__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.currency__exchange__rate__item {
+    flex-basis: calc((100% - 10px) / 2);
+}
